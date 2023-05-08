@@ -1,5 +1,5 @@
 import { QueryPhoto, UpdatePhoto } from "../dto/photoDto";
-import { Photo } from "../entity/photoEntity";
+import { Photo } from "../entity/photo";
 import { DataSource, Like } from "typeorm";
 export class PhotoService {
   photo;
@@ -11,7 +11,11 @@ export class PhotoService {
     return result;
   }
   findAll() {
-    const result = this.photo.find();
+    const result = this.photo.find({
+      relations: {
+        metadata: true,
+      },
+    });
     return result;
   }
   async find(query: QueryPhoto) {
@@ -27,7 +31,12 @@ export class PhotoService {
   }
 
   async update(photo: UpdatePhoto) {
-    return await this.photo.save(photo);
+    // TODO
+    const item = await this.findOne(photo.id);
+    if (item) {
+      return await this.photo.save(photo);
+    }
+    return { message: "id不存在" };
   }
 
   async delete(id: number) {

@@ -1,6 +1,6 @@
 import type { DataSource } from "typeorm";
 import { CreatePhoto, QueryPhoto, UpdatePhoto } from "../dto/photoDto";
-import { Photo } from "../entity/photoEntity";
+import { Photo } from "../entity/photo";
 import { PhotoService } from "../service/photoService";
 
 export class PhotoController {

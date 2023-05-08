@@ -1,15 +1,16 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { Photo } from "./entity/photoEntity";
+import { Photo } from "./entity/photo";
+import { PhotoMetadata } from "./entity/photoMetadata";
 import { PhotoController } from "./controller/photoController";
 export const db = new DataSource({
   type: "mysql",
   host: "localhost",
   port: 3306,
   username: "root",
-  password: "123456",
+  password: "admin",
   database: "testtypeorm",
-  entities: [Photo],
+  entities: [Photo, PhotoMetadata],
   synchronize: true,
   logging: false,
 });
@@ -29,22 +30,40 @@ async function init(ds: DataSource) {
   //     desc: "xxxxxxxxx___" + (i + 1),
   //   });
   // }
+  // console.log();
+  // console.log(await photoController.findOne(74));
+  // console.log();
+  // console.log(await photoController.find({ fileName: "10.png", desc: "" }));
+  // console.log();
+  // console.log(await photoController.delete(75));
+  // console.log();
+  // console.log(await photoController.delete(44));
+  // console.log(
+  //   await photoController.update({
+  //     id: 74,
+  //     fileName: "test74.png",
+  //     desc: "update~~~~~~~~~~",
+  //   })
+  // );
+  // const photo = await photoController.findOne(84);
+  // const photoMetadataRepository = ds.getRepository(PhotoMetadata);
+  // const photoMetadata = new PhotoMetadata();
+  // photoMetadata.width = 10;
+  // photoMetadata.height = 10;
+  // photoMetadata.comment = "xxxxxxxx";
+  // photoMetadata.photo = photo!;
+  // await photoMetadataRepository.save(photoMetadata);
+  const photoRepository = ds.getRepository(Photo);
+  await photoRepository.save({
+    fileName: "test自动保存",
+    desc: "xxxxxxx1111111111",
+    metadata: {
+      width: 20,
+      height: 30,
+      comment: "yyyyyyyy11111111111",
+    },
+  });
   const allData = await photoController.findAll();
   console.log(allData);
-  console.log();
-  console.log(await photoController.findOne(74));
-  console.log();
-  console.log(await photoController.find({ fileName: "10.png", desc: "" }));
-  console.log();
-  console.log(await photoController.delete(75));
-  console.log();
-  console.log(await photoController.delete(44));
-  console.log(
-    await photoController.update({
-      id: 74,
-      fileName: "test74.png",
-      desc: "update~~~~~~~~~~",
-    })
-  );
   process.exit(0);
 }
