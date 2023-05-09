@@ -1,8 +1,8 @@
 import { QueryPhoto, UpdatePhoto } from "../dto/photoDto";
 import { Photo } from "../entity/photo";
-import { DataSource, Like } from "typeorm";
+import { DataSource, Like,Repository } from "typeorm";
 export class PhotoService {
-  photo;
+  photo: Repository<Photo>;
   constructor(private readonly dbs: DataSource) {
     this.photo = this.dbs.getRepository(Photo);
   }

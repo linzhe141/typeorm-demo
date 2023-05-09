@@ -21,7 +21,8 @@ export class PhotoMetadata {
 
   // 一对一
   @OneToOne(() => Photo, (photo) => photo.metadata)
-  // 表明关系的这一方将拥有该关系。
+  // 表明关系的这一方将拥有该关系。 
+  // ?一对一这是必填的，表示photo的组件作为外键
   @JoinColumn()
   photo: Relation<Photo>; // 循环引用问题
 }
